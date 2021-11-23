@@ -14,7 +14,7 @@
 4. Position the windows such that Gazebo, the Terminal and the "Overhead" camera window are all visible.
 5. Track the followbot and take note of how it interprents the world and path in front of it.
 
-## Follow a path
+## Navigate roads and intersections
 
 1. Configure a `.launch` file to spawn a `waffle_pi` turtlebot in the **`course_intersections.world`** world.
     - This world uses the `course_intersections.material` material, which in turn points to the `course_intersections_3.png` ground image.
