@@ -501,7 +501,7 @@ class Follower:
             self.process_image(self.img_msg)
 
     def state_commands(self):
-        if self.wait_to_stop:
+        if self.wait_to_stop and not self.no_drive:
             if self.moving or self.turning:
                 return
         
@@ -669,15 +669,18 @@ class Follower:
         dist_phy = np.linalg.norm(end_phy)
 
         # Look for end of straightaway
+        in_control = True
         if dist_phy < DIST_LOOKAHEAD:
             self.find_turn(midline, lines_white, lines_yellow, mark_left, mark_right, img_projected.shape)
+            in_control = False
 
         # Construct control command
         control_angle = np.arctan2(pt_intercept_phy[1], pt_intercept_phy[0]) - np.pi/2
         drive_dist = np.min([dist_phy, np.linalg.norm(pt_intercept_phy)])
         
-        self.turn(control_angle)
-        self.drive(drive_dist)
+        if in_control:
+            self.turn(control_angle)
+            self.drive(drive_dist)
 
         # Draw image representation
         img_lines = np.zeros_like(img_projected)
